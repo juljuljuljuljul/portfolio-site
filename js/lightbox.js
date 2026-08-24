@@ -248,9 +248,14 @@
   nextBtn.addEventListener('click', goNext);
   prevBtn.addEventListener('click', goPrev);
 
-  // Click the dark background (not the image itself) to close.
+  // Click the dark background (not the image itself) to close. The
+  // viewport/track/slide wrappers are all full-bleed (100% width/height)
+  // so they sit "under" the visible black gap around the image — a plain
+  // e.target === lightbox check never matched, since clicks there always
+  // land on one of these wrappers instead of the #lightbox element itself.
+  const backgroundEls = [lightbox, viewport, track, ...slides];
   lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) close();
+    if (backgroundEls.includes(e.target)) close();
   });
 
   window.addEventListener('keydown', (e) => {
