@@ -1108,3 +1108,39 @@ body.about-page .about-label {
     color: rgba(255, 255, 255, 0.9);
   }
 }
+
+/* Blurry pink cursor glow (js/cursor-glow.js) — replaces the native arrow
+   site-wide, but yields to a normal pointer over anything clickable (a
+   clearer "this is a link" cue than the glow, which is purely decorative
+   everywhere else). Desktop-only, same hover/pointer gate as the JS. */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor body {
+    cursor: none;
+  }
+
+  html.custom-cursor.cursor-clickable,
+  html.custom-cursor.cursor-clickable body {
+    cursor: pointer;
+  }
+
+  #cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 45, 149, 0.85) 0%, rgba(255, 45, 149, 0.4) 55%, rgba(255, 45, 149, 0) 75%);
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-100px, -100px);
+    transition: opacity 0.25s ease;
+    will-change: transform;
+  }
+
+  html.custom-cursor.cursor-clickable #cursor-glow {
+    opacity: 0;
+  }
+}

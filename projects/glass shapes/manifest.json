@@ -2,14 +2,46 @@
   "title": "Glass Shapes",
   "cover": "cover.webp",
   "items": [
-    { "type": "video", "id": "-bR3WWWZkHc", "orientation": "vertical" },
-    { "type": "image", "src": "cover.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.05.37.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.05.52.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.06.03.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.06.13.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.06.38.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.06.47.webp" },
-    { "type": "image", "src": "Screenshot 2026-08-25 at 0.07.01.webp" }
+    {
+      "type": "video",
+      "id": "-bR3WWWZkHc",
+      "orientation": "vertical"
+    },
+    {
+      "type": "image",
+      "src": "cover.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.05.37.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.05.52.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.06.03.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.06.13.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.06.38.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.06.47.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-25 at 0.07.01.webp"
+    }
+  ],
+  "tags": [
+    "graphic-imagery",
+    "photorealism"
   ]
 }
