@@ -930,6 +930,7 @@ body.about-page .about-label {
   padding: 48px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 40px;
@@ -1027,37 +1028,18 @@ body.about-page .about-label {
 }
 
 .about-section p.privacy-note {
-  /* Stays right where it was (inside the 40% text column) — only the
-     divider line above it needs to visually match the section's own
-     full-width top border, not the paragraph itself. A ::before escapes
-     the column via width:250% (100% / 40%, the column's own width above)
-     rather than restructuring the flex layout, which turned out to break
-     the row at some viewport widths. */
-  position: relative;
+  /* A direct flex child of .about-section (a sibling of .about-section-text,
+     not nested inside it) with flex-wrap on the parent above — so this
+     gets its own full-width row instead of being squeezed into the 40%
+     text column, both for the divider line and the text itself. */
+  flex: 0 0 100%;
+  width: 100%;
   margin-top: 32px;
   padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 12px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.35);
-}
-
-.about-section p.privacy-note::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 250%;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-@media (max-width: 767px) {
-  /* On mobile the column is already the section's full width, so the
-     line needs to be 100% here, not the desktop 250% escape — this has to
-     come after the base rule above (not in the earlier mobile block) or
-     the cascade's source-order tiebreak lets the base 250% win anyway. */
-  .about-section p.privacy-note::before {
-    width: 100%;
-  }
 }
 
 @media (hover: hover) and (pointer: fine) {
