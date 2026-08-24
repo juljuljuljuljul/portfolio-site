@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toys — Julia Smelansky</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="project-page">
+
+<section id="project-scroll">
+  <div id="project-track"></div>
+</section>
+
+<section id="project-explainer">
+  <p>Glossy, chunky 3D toy characters — a set of imagined vinyl figures with bright color-blocked bodies and oversized round eyes.</p>
+</section>
+
+<nav id="project-menu">
+  <a href="../../index.html">Home</a>
+</nav>
+
+<div id="lightbox" aria-hidden="true">
+  <button id="lightbox-close" aria-label="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7 L17 17 M17 7 L7 17" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+  </button>
+  <button id="lightbox-prev" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div id="lightbox-viewport">
+    <div id="lightbox-track">
+      <div class="lightbox-slide"><img alt=""></div>
+      <div class="lightbox-slide"><img alt=""></div>
+      <div class="lightbox-slide"><img alt=""></div>
+    </div>
+  </div>
+  <button id="lightbox-next" aria-label="Next image">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div id="lightbox-dots"></div>
+</div>
+
+<script src="../../js/drag-scroll.js"></script>
+<script src="../../js/lightbox.js"></script>
+<script src="../../js/project.js"></script>
+<script src="../../js/project-order.js"></script>
+<script src="../../js/project-nav.js"></script>
+</body>
+</html>
