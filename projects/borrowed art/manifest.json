@@ -1,0 +1,38 @@
+{
+  "title": "Borrowed Art",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "image",
+      "src": "cover.webp"
+    },
+    {
+      "type": "video",
+      "id": "U9-N3v9jp4g",
+      "orientation": "vertical"
+    },
+    {
+      "type": "image",
+      "src": "1.webp"
+    },
+    {
+      "type": "image",
+      "src": "2.webp"
+    },
+    {
+      "type": "image",
+      "src": "3.webp"
+    },
+    {
+      "type": "image",
+      "src": "4.webp"
+    },
+    {
+      "type": "image",
+      "src": "5.webp"
+    }
+  ],
+  "tags": [
+    "photorealism"
+  ]
+}

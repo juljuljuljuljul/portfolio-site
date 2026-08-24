@@ -1,0 +1,69 @@
+{
+  "title": "Ways to Grow",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "video",
+      "id": "WT6J5NCWUI0"
+    },
+    {
+      "type": "image",
+      "src": "001.webp"
+    },
+    {
+      "type": "image",
+      "src": "002.webp"
+    },
+    {
+      "type": "image",
+      "src": "003.webp"
+    },
+    {
+      "type": "image",
+      "src": "004.webp"
+    },
+    {
+      "type": "image",
+      "src": "005.webp"
+    },
+    {
+      "type": "image",
+      "src": "006.webp"
+    },
+    {
+      "type": "image",
+      "src": "007.webp"
+    },
+    {
+      "type": "image",
+      "src": "008.webp"
+    },
+    {
+      "type": "image",
+      "src": "009.webp"
+    },
+    {
+      "type": "image",
+      "src": "010.webp"
+    },
+    {
+      "type": "image",
+      "src": "011.webp"
+    },
+    {
+      "type": "image",
+      "src": "012.webp"
+    },
+    {
+      "type": "image",
+      "src": "013.webp"
+    },
+    {
+      "type": "image",
+      "src": "014.webp"
+    }
+  ],
+  "tags": [
+    "photorealism"
+  ]
+}

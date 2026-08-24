@@ -1,0 +1,50 @@
+{
+  "title": "Organic Loops",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "video",
+      "id": "WKYd20H-IGU",
+      "orientation": "vertical"
+    },
+    {
+      "type": "image",
+      "src": "cover.webp"
+    },
+    {
+      "type": "image",
+      "src": "0_2.webp"
+    },
+    {
+      "type": "image",
+      "src": "0_0 (2).webp"
+    },
+    {
+      "type": "image",
+      "src": "0_0.webp"
+    },
+    {
+      "type": "image",
+      "src": "0_1.webp"
+    },
+    {
+      "type": "image",
+      "src": "0_2 (1).webp"
+    },
+    {
+      "type": "image",
+      "src": "0_2 (2).webp"
+    },
+    {
+      "type": "image",
+      "src": "0_3.webp"
+    },
+    {
+      "type": "image",
+      "src": "0_0 (1).webp"
+    }
+  ],
+  "tags": [
+    "graphic-imagery"
+  ]
+}

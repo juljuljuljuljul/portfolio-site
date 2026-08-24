@@ -1,0 +1,45 @@
+{
+  "title": "New Year",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "video",
+      "id": "rO6dJ4DEYzU"
+    },
+    {
+      "type": "image",
+      "src": "cover.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_2_red_shabbat_candles_--ar_9151_--sref_357021_aafa3822-0c7b-4eb2-a8a4-927c570537d3_2.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_gold_apple_hovering_over_red_desert_in_space__4a265948-7a5b-4f3d-a881-c83130a179bb_0.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_3d_organic_shape_--ar_169_--sref_3570213640_-_42569111-e9fa-4da9-86dd-9f7d04291350_0.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_3d_organic_shape_--ar_169_--sref_3570213640_-_58b7afb5-2ef2-4a8f-a8e6-7f543ba8a63e_0.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_3d_organic_shape_--ar_169_--sref_3570213640_-_58b7afb5-2ef2-4a8f-a8e6-7f543ba8a63e_3.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_3d_organic_shape_--ar_169_--sref_3570213640_-_690fc1c7-2bd0-4ebb-8cb2-77772f78382a_0.webp"
+    },
+    {
+      "type": "image",
+      "src": "juljuljuljuljul_3d_organic_shape_--ar_169_--sref_3570213640_-_cb10324b-eb37-4caa-9211-d6ad4b6de6a2_1.webp"
+    }
+  ],
+  "tags": [
+    "graphic-imagery"
+  ]
+}

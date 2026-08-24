@@ -1,0 +1,1128 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../fonts/Lato-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../fonts/Lato-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+html, body {
+  height: 100%;
+  background: #fff;
+  color: #000;
+  overflow: hidden; /* the whole page is exactly two half-screens, no page scroll */
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+}
+
+/* --- Top half: name + about --- */
+
+#top-half {
+  height: 38vh;
+  height: 38dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 6vw;
+}
+
+@media (min-width: 768px) {
+  #top-half {
+    /* #about and #portrait sit at opposite ends of the same row, sharing
+       this one padding box — that's what gives the portrait the same
+       right-inset as the text's left-inset, and the same top-alignment,
+       without hand-tuning separate offsets for each. Switching from
+       justify-content:center to align-items:flex-start (needed for that
+       shared top-alignment) also removed the vertical centering that used
+       to give the content breathing room — padding-top puts it back. */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: clamp(28px, 5vw, 56px);
+  }
+}
+
+/* Portrait: fixed size once shown, never scales down — it's either full
+   size or it's gone. The hide-breakpoint is tuned per page (not a single
+   shared value) because the text column next to it sizes differently on
+   each: the homepage's #intro grows with viewport HEIGHT (62dvh-based), the
+   about page's #about-intro is a flat 720px cap. Each threshold below is
+   the width at which a fixed 160px portrait still leaves >= 50px of gutter
+   next to that page's text at a representative ~900px-tall viewport,
+   verified via getBoundingClientRect. */
+#portrait-wrap {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  /* Fixed size, never shrinks — js/portrait-fit.js measures the actual
+     rendered gap next to the text (which varies with viewport HEIGHT too,
+     not just width) and adds .no-room below to hide it outright rather
+     than let it get cramped. A static width breakpoint can't do this
+     correctly for every window height, which is exactly why one existed
+     here before and disappeared "too early" on a shorter/taller window
+     than the one it was tuned against. */
+  #portrait-wrap {
+    display: block;
+    position: relative;
+    flex: none;
+    width: 160px;
+    height: 160px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #portrait-wrap.no-room {
+    display: none;
+  }
+}
+
+#portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* The arc sits just outside the portrait's own circle (viewBox is scaled up
+   to 140% of the portrait's box so the text has room to curve along the
+   rim without clipping). Hidden at rest, eased in on hover. */
+#portrait-arc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160%;
+  height: 160%;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.about-label {
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  /* The SVG's viewBox (200 units) gets scaled up ~1.23x by its actual
+     rendered box (160% of the portrait) — this compensates so the text
+     actually renders at ~11px like "PROJECTS"/nav labels, not ~13.5px. */
+  font-size: 8.9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  fill: rgba(0, 0, 0, 0.45);
+}
+
+/* ABOUT & CONTACT is a functional label (menu link, eventually), not a
+   decorative flourish — always visible, no hover-reveal/slide. */
+.about-label--static {
+  opacity: 1;
+}
+
+/* HEY THERE! is the playful one — hidden at rest, fades + slides into
+   place on hover (see js/portrait-arc.js). */
+.about-label--animated {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #portrait-wrap:hover .about-label--animated {
+    opacity: 1;
+  }
+}
+
+/* Hierarchy flipped: the name is now a small, plain greeting line; the
+   about paragraph carries the "cool font" (Space Grotesk) at a large size
+   and is the section's visual anchor. */
+#greeting-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: clamp(10px, 1.8vw, 20px);
+}
+
+#greeting {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.68);
+}
+
+/* Desktop normally has ABOUT & CONTACT on the portrait arc — this is the
+   fallback way back to the about page whenever the portrait itself isn't
+   shown, whether that's true mobile (CSS below) or a desktop window too
+   cramped to fit it (js/portrait-fit.js toggles .show for that case).
+   Styling lives here (not inside a media query) so it looks right either
+   way it gets triggered. */
+#mobile-about-link {
+  display: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+  text-decoration: none;
+}
+
+#mobile-about-link.show {
+  display: inline;
+}
+
+#intro {
+  /* Matches filmstrip cards + the gaps between them, exactly mirroring the
+     real chain that produces a card's height: 62dvh, minus #bottom-half's
+     own padding-top and the "Projects" label's rendered height + margin
+     (13.5px is that label's own line box at 11px/normal — a font-metric
+     constant, not viewport-dependent), times 9/16 for one card's width.
+     Mobile: 2 cards + 1 gap. Desktop: 3 cards + 2 gaps (user asked for it
+     wider — "3 photos wide"). Verified via getBoundingClientRect to match
+     the real card width within 0.4px each time this was tuned. */
+  max-width: calc(
+    (62dvh - clamp(16px, 3vw, 28px) - 13.5px - clamp(10px, 2vw, 18px)) * 1.125
+    + clamp(8px, 1.2vw, 16px)
+  );
+}
+
+@media (min-width: 768px) {
+  #intro {
+    max-width: calc(
+      (62dvh - clamp(16px, 3vw, 28px) - 13.5px - clamp(10px, 2vw, 18px)) * 1.6875
+      + clamp(8px, 1.2vw, 16px) * 2
+    );
+  }
+}
+
+#intro p {
+  font-family: 'Space Grotesk', 'Lato', Helvetica, Arial, sans-serif;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: #000;
+}
+
+@media (max-width: 767px) {
+  /* Same small-caps label treatment as nav/"PROJECTS" (11px, 0.14em,
+     uppercase), but full black instead of their muted gray. Desktop
+     greeting is untouched. */
+  #greeting {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000;
+  }
+
+  /* Slightly more room than desktop between the name/about row and the
+     paragraph below, now that the row also carries the ABOUT link. */
+  #greeting-row {
+    margin-bottom: clamp(16px, 4vw, 28px);
+  }
+
+  #mobile-about-link {
+    display: inline;
+  }
+
+  #intro p {
+    font-size: 21px;
+    line-height: 1.2;
+  }
+}
+
+/* --- Bottom half: horizontal filmstrip of tall covers --- */
+
+#bottom-half {
+  height: 62vh;
+  height: 62dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(16px, 3vw, 28px);
+  /* deliberately no bottom padding — the filmstrip below reaches all the
+     way down to the edge of the screen. */
+}
+
+/* Same font-metrics as the old plain "Projects" label (11px/normal,
+   single line) so #intro's height formula above — which subtracts this
+   row's rendered height as a constant — stays correct. overflow-x:auto +
+   nowrap guarantees it never wraps to a second line even with four tabs
+   on a narrow phone, which a wrap would silently break. */
+#filmstrip-filter {
+  flex: none;
+  display: flex;
+  gap: 20px;
+  padding: 0 6vw;
+  margin-bottom: clamp(10px, 2vw, 18px);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+#filmstrip-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  flex: none;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.28);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Same weight as the old plain "Projects" label, so the default state
+   ("All Projects" active) reads identically to before this feature. */
+.filter-tab.active {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filter-tab:not(.active):hover {
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Plain native horizontal scrolling — overscroll-behavior-x: contain stops a
+   hard trackpad swipe past either end from chaining into the browser's own
+   back/forward navigation gesture. js/filmstrip.js adds click-and-drag
+   scrolling on top (mouse/trackpad only), same idea as a touch drag. */
+#filmstrip {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 6vw;
+}
+
+#filmstrip.dragging {
+  user-select: none;
+}
+
+#filmstrip-track {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(8px, 1.2vw, 16px);
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.project-card {
+  display: block;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  flex: none;
+  text-decoration: none;
+  -webkit-user-drag: none;
+}
+
+.project-card.filtered-out {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* Card height is driven by 62dvh regardless of screen width, so on a
+     narrow-but-tall phone the (height-derived) width can end up bigger
+     than the screen is comfortable with. Capping max-width directly would
+     fight the explicit height:100% above (aspect-ratio has no "auto" axis
+     left to reconcile them, so the box stops being 9:16) — capping
+     max-height instead, expressed in the same 9:16 terms as an equivalent
+     70vw width, keeps height the only constrained axis so aspect-ratio can
+     still cleanly derive the width from it. ~70vw is roughly what a card
+     already renders as on a typical 375px-wide phone, so this is a no-op
+     there but keeps cards from ballooning on narrower/taller devices —
+     shrinking the thumbnail, per the standing rule that thumbnail size is
+     the one thing allowed to flex on mobile. */
+  .project-card {
+    max-height: calc(70vw * 16 / 9);
+  }
+}
+
+.cover {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity 1.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .cover img {
+    transform: scale(1.04);
+    transition: transform 0.7s ease;
+  }
+
+  .project-card:hover .cover::after {
+    opacity: 0.05;
+    transition: opacity 0.7s ease;
+  }
+}
+
+/* --- Project detail page: large horizontal scroll + explanation ---
+   Unlike the homepage, this page is allowed to scroll vertically (see
+   .project-page override below) — the image row keeps a fixed, generous
+   height and whatever follows (explainer, menu) just sits below it in
+   normal flow. */
+
+body.project-page {
+  overflow-y: auto;
+  /* Reserves room for #project-menu, which is position:fixed at the
+     bottom (measured footer height ~54px) — without this, the last bit of
+     scrollable content would end up hidden behind it. */
+  padding-bottom: 60px;
+}
+
+#project-scroll {
+  height: 78vh;
+  height: 78dvh;
+  flex: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 6vw;
+}
+
+#project-scroll.dragging {
+  user-select: none;
+}
+
+#project-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.project-image {
+  display: block;
+  flex: none;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  -webkit-user-drag: none;
+}
+
+.project-image img {
+  display: block;
+  height: 100%;
+  width: auto;
+  /* Reserves the box before the file arrives — nearly every photo here is
+     roughly 9:16, so this keeps the row from collapsing to a tiny default
+     size mid-load on a slow connection. Once loaded, the real image
+     dimensions take over via object-fit, so an actual non-portrait photo
+     still displays correctly, just without this placeholder shape while
+     it's still in flight. */
+  aspect-ratio: auto 9 / 16;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+/* A video-only project: one embed, top/left/bottom-aligned with wherever an
+   image row would otherwise sit — height fills #project-scroll exactly
+   (same top and bottom), left edge matches the same 6vw padding, width
+   just follows from the 16:9 ratio. This wrapper carries the sizing;
+   .project-video (the real iframe) and .project-video-cover (mobile's
+   static replacement) both just fill it at 100%. */
+.project-video-wrap {
+  flex: none;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+.project-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.project-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* A YouTube Short embedded inline alongside regular 9:16 photos — matches
+   their own aspect ratio instead of the 16:9 default, so it sits in the row
+   the same size/shape as the images around it. */
+.project-video-wrap--vertical {
+  aspect-ratio: 9 / 16;
+}
+
+/* Mobile-only stand-in for the real embed (see the media query below) — a
+   16:9 iframe forced into a narrow row gets its top/bottom clipped, so
+   mobile gets a static cover + play button instead; tapping it opens the
+   real video in the lightbox, sized to whatever the viewport allows. */
+.project-video-cover {
+  display: none;
+}
+
+.project-video-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Circle + triangle are one SVG (see js/project.js) — currentColor drives
+   the circle, matching the same badge look as the about page's Listen
+   icon instead of a plain bare triangle. */
+.project-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.project-video-play svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 767px) {
+  /* Vertical Shorts are skipped (:not(...)) — already the right shape for
+     a mobile screen, no clipping problem to solve, so they keep the plain
+     inline embed here just like desktop. */
+  .project-video-wrap:not(.project-video-wrap--vertical) .project-video {
+    display: none;
+  }
+
+  /* The cover swap is the site's own vertical cover photo, not a video
+     frame — the container needs to match that shape (9:16, same as every
+     other photo) instead of staying 16:9, or the cover gets crammed into
+     a wide box and object-fit:cover zooms into a sliver of it. */
+  .project-video-wrap:not(.project-video-wrap--vertical) {
+    aspect-ratio: 9 / 16;
+  }
+
+  .project-video-cover {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: #000;
+    cursor: pointer;
+  }
+
+  /* Already visible as the video's own mobile poster right above — showing
+     it again as its own slide here would just repeat the same photo. */
+  .project-image--video-cover-dup {
+    display: none;
+  }
+}
+
+/* No fixed height, no vertical centering — sits right under the image row
+   with a small top gap instead of floating mid-way down a tall box. */
+#project-explainer {
+  padding: 20px 6vw 0;
+}
+
+#project-explainer p {
+  /* Matches one image card's own rendered width (images are height:100%
+     inside a 78dvh row at their native 9:16 ratio), not an arbitrary
+     paragraph measure. */
+  max-width: calc(78dvh * 9 / 16);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.68);
+}
+
+/* A real sticky footer — pinned to the bottom of the viewport at all times,
+   not flowing after the explainer text (whose length varies per project and
+   would otherwise push this up/down inconsistently). body.project-page
+   reserves matching bottom padding so scrolled content never hides behind
+   it. Prev/Next (added by js/project-nav.js, only when a neighbor exists)
+   land here too. */
+#project-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 28px;
+  padding: 20px 6vw;
+  background: #fff;
+  z-index: 15;
+}
+
+#project-menu a {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.45);
+  transition: color 0.4s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #project-menu a:hover {
+    color: #000;
+  }
+}
+
+/* --- Lightbox --- */
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease;
+}
+
+#lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* A 3-slide (prev/current/next) sliding strip — dragging (mouse or touch)
+   moves it in real time via js/lightbox.js, which also handles completing
+   or reverting the slide on release. Chevrons (desktop) and dots (mobile)
+   still work as before; drag/swipe now makes the movement between images
+   itself feel continuous instead of a hard cut. */
+#lightbox-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Flex items always get an implicit stacking context, so without this the
+     viewport paints over the absolutely-positioned buttons/dots (a real bug
+     that made the close button unclickable — z-index makes the stacking
+     order explicit instead of relying on flex/position quirks). */
+  position: relative;
+  z-index: 0;
+}
+
+#lightbox-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.lightbox-slide {
+  flex: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-slide img {
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Video mode (js/lightbox.js openVideoLightbox) — mobile's cover+play
+   button (js/project.js) opens the real embed here instead of inline, so
+   it can size to whatever the viewport allows, landscape included, rather
+   than being clipped by a fixed-height row. Hides the photo-slide chrome;
+   #lightbox-video is built on demand, not static per-page markup. */
+#lightbox.video-mode #lightbox-viewport,
+#lightbox.video-mode #lightbox-prev,
+#lightbox.video-mode #lightbox-next,
+#lightbox.video-mode #lightbox-dots {
+  display: none;
+}
+
+#lightbox-video {
+  display: none;
+  width: 90vw;
+  max-width: 90vw;
+  aspect-ratio: 16 / 9;
+  max-height: 90vh;
+}
+
+#lightbox.video-mode #lightbox-video {
+  display: block;
+}
+
+#lightbox-video.lightbox-video--vertical {
+  aspect-ratio: 9 / 16;
+  width: auto;
+  height: 90vh;
+  max-width: 90vw;
+}
+
+#lightbox-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #lightbox-viewport {
+    cursor: grab;
+  }
+
+  #lightbox-viewport:active {
+    cursor: grabbing;
+  }
+
+  /* Click-to-zoom (desktop only, see js/lightbox.js) — the image itself
+     gets scaled via inline transform, so hint at the interaction with the
+     cursor rather than the drag affordance above. */
+  .lightbox-slide img {
+    cursor: zoom-in;
+  }
+
+  .lightbox-slide img.zoomed-in {
+    cursor: zoom-out;
+  }
+}
+
+/* Thin-stroke SVG icons, same technique as the moving-site's corner-btn
+   (stroke-width 1.25, round caps) — not text glyphs, which render too bold
+   and at whatever angle the font happens to draw them. */
+#lightbox button {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.6);
+  /* Slow fade back to dim; :hover below overrides with a quicker brighten-in. */
+  transition: color 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+#lightbox button svg {
+  display: block;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #lightbox button:hover {
+    color: #fff;
+    transition: color 0.5s ease;
+  }
+}
+
+#lightbox-close {
+  top: clamp(14px, 3vw, 28px);
+  right: clamp(14px, 3vw, 28px);
+  width: 32px;
+  height: 32px;
+}
+
+#lightbox-close svg {
+  width: 15px;
+  height: 15px;
+}
+
+#lightbox-prev,
+#lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  /* Chevrons are desktop-only — touch users drag/swipe, with dot-pagination
+     as the position readout instead (see #lightbox-dots below). */
+  display: none;
+}
+
+#lightbox-prev svg,
+#lightbox-next svg {
+  width: 16px;
+  height: 16px;
+}
+
+#lightbox-prev { left: clamp(6px, 2.4vw, 20px); }
+#lightbox-next { right: clamp(6px, 2.4vw, 20px); }
+
+#lightbox-dots {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(16px, 4vh, 32px);
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.lightbox-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: background 0.3s ease;
+}
+
+.lightbox-dot.current {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #lightbox-prev,
+  #lightbox-next {
+    display: flex;
+  }
+
+  #lightbox-dots {
+    display: none;
+  }
+}
+
+#lightbox button:focus-visible,
+.project-image:focus-visible {
+  outline: 2px solid #ff0099;
+  outline-offset: 2px;
+}
+
+/* --- About page: black background, real page scroll (long-form content,
+   not the homepage's fixed two-half-screens layout). --- */
+
+body.about-page {
+  background: #000;
+  color: #fff;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+#about-hero {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 6vw, 56px) 6vw 40px;
+  position: relative;
+}
+
+/* Reuses the homepage's #mobile-about-link mechanism (same id, same
+   show/hide logic from js/portrait-fit.js) for the reverse trip — the
+   about page's own portrait+arc ("BACK HOME") is display:none below
+   768px, so without this there'd be no way home on mobile at all. Needs
+   its own color (base style is dark, tuned for the white homepage).
+
+   Positioned to land at the exact same height as the homepage's ABOUT,
+   which sits inside #top-half's vertically-centered 38dvh block — its top
+   offset works out to (38dvh - 205.9px) / 2, where 205.9px is the fixed
+   rendered height of the homepage's greeting+intro block (constant across
+   widths/heights, only content/font-size dependent). A flat px margin here
+   would only match at one specific viewport height; this tracks dvh the
+   same way ABOUT does, verified at 375x700, 375x812 and 414x896 to land
+   within a fraction of a px of ABOUT's actual position every time. */
+body.about-page #mobile-about-link.show {
+  display: block;
+  position: absolute;
+  top: calc(19dvh - 103px);
+  right: 6vw;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (min-width: 768px) {
+  #about-hero {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+#about-intro {
+  max-width: 720px;
+}
+
+@media (max-width: 767px) {
+  /* #mobile-about-link ("HOME") is absolutely positioned above at
+     calc(19dvh - 103px), independent of #about-hero's own padding-top —
+     without this, the two overlap (the link floats over the paragraph's
+     first lines instead of sitting above them). This clears it with a
+     ~24px gap using that same dvh term, so the gap holds at any viewport
+     height rather than only the one this was tuned against; the trailing
+     subtraction just backs out #about-hero's own padding-top since this
+     margin stacks on top of it. */
+  #about-intro {
+    margin-top: calc(19dvh - 103px + 38px - clamp(28px, 6vw, 56px));
+  }
+}
+
+#about-intro p {
+  font-family: 'Space Grotesk', 'Lato', Helvetica, Arial, sans-serif;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.about-link {
+  color: #34B184;
+  text-decoration: none;
+}
+
+.about-link:hover {
+  text-decoration: underline;
+}
+
+/* Arc labels default to a dark fill (tuned for the white homepage) — flip
+   to a light one on the black about page. */
+body.about-page .about-label {
+  fill: rgba(255, 255, 255, 0.55);
+}
+
+.about-section {
+  /* margin (not padding) inset so the border-top below naturally starts
+     after the same margin as the rest of the page and runs full length,
+     instead of the old edge-to-edge-but-capped-at-720px look. */
+  margin: 0 6vw;
+  padding: 48px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.about-section-text {
+  flex: 0 0 40%;
+  width: 40%;
+}
+
+/* Optional image alongside a section's text — always exactly 30% of the
+   section's own width regardless of how tall the text/image end up being
+   (align-items:flex-start above keeps it from stretching to match). */
+.about-section-image {
+  flex: 0 0 30%;
+  width: 30%;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.about-section-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .about-section {
+    flex-direction: column;
+  }
+
+  .about-section-text {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .about-section-image {
+    width: 100%;
+    flex-basis: auto;
+  }
+}
+
+.about-section h2 {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+}
+
+.about-section p {
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.contact-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #333;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #fff;
+  transition: opacity 0.3s ease;
+}
+
+.contact-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+/* The Material mail glyph has more built-in padding within its own square
+   than the WhatsApp/Instagram brand glyphs do, so it reads smaller at the
+   same box size — bumped up to compensate, not an inconsistency. */
+.contact-button[href^="mailto:"] .contact-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.about-section p.privacy-note {
+  /* Stays right where it was (inside the 40% text column) — only the
+     divider line above it needs to visually match the section's own
+     full-width top border, not the paragraph itself. A ::before escapes
+     the column via width:250% (100% / 40%, the column's own width above)
+     rather than restructuring the flex layout, which turned out to break
+     the row at some viewport widths. */
+  position: relative;
+  margin-top: 32px;
+  padding-top: 24px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.about-section p.privacy-note::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250%;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 767px) {
+  /* On mobile the column is already the section's full width, so the
+     line needs to be 100% here, not the desktop 250% escape — this has to
+     come after the base rule above (not in the earlier mobile block) or
+     the cascade's source-order tiebreak lets the base 250% win anyway. */
+  .about-section p.privacy-note::before {
+    width: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-button:hover {
+    opacity: 0.8;
+  }
+}
+
+/* Icon-only on mobile — the word doesn't fit three-across comfortably at
+   that width, and the icon alone reads fine at this size. A perfect circle
+   (equal width/height) instead of the desktop pill, since there's no label
+   text left to give it a natural rectangular shape. */
+@media (max-width: 767px) {
+  .contact-button {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .contact-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+/* Narration for each about-page paragraph (js/about-audio.js) — subtle by
+   design: no border/box, just a small icon + word, muted until hovered or
+   playing. */
+.listen-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* Noticeably darker than the section headline (rgba(255,255,255,0.5))
+     so the two don't read as the same weight of label at a glance. */
+  color: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.listen-icon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.listen-button.is-playing {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .listen-button:hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}

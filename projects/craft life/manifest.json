@@ -1,0 +1,46 @@
+{
+  "title": "Craft Life",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "video",
+      "id": "05KB5j4ER3k",
+      "orientation": "vertical"
+    },
+    {
+      "type": "image",
+      "src": "cover.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.41.21.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.41.32.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.41.44.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.42.26.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.42.37.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.42.48.webp"
+    },
+    {
+      "type": "image",
+      "src": "Screenshot 2026-08-22 at 20.43.04.webp"
+    }
+  ],
+  "tags": [
+    "photorealism"
+  ]
+}

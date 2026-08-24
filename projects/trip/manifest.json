@@ -1,0 +1,22 @@
+{
+  "title": "Trip",
+  "cover": "cover.webp",
+  "images": [
+    "cover.webp",
+    "trip03.webp",
+    "trip10.webp",
+    "trip011.webp",
+    "trip012.webp",
+    "trip12.webp",
+    "trip013.webp",
+    "trip014.webp",
+    "trip015.webp",
+    "trip016.webp",
+    "trip017.webp",
+    "trip018.webp",
+    "trip020.webp"
+  ],
+  "tags": [
+    "photorealism"
+  ]
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Julia Smelansky</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<section id="top-half">
+  <div id="about">
+    <div id="greeting-row">
+      <h1 id="greeting">Hi, I'm Julia Smelansky</h1>
+      <a id="mobile-about-link" href="about.html">About</a>
+    </div>
+    <div id="intro">
+      <p>To craft the right visual world for a project, I explore diverse styles, some entirely unexpected. Even using artificial tools, I shape imagery and video to evoke a natural, tactile feel and genuine emotion.</p>
+    </div>
+  </div>
+  <a id="portrait-wrap" href="about.html" aria-label="About & contact">
+    <img id="portrait" src="portrait.png" alt="Julia Smelansky">
+    <svg id="portrait-arc" viewBox="0 0 200 200" aria-hidden="true">
+      <path id="about-arc-path" d="M 73.90,28.32 A 76.3,76.3 0 0,0 100,176.3" fill="none"></path>
+      <text class="about-label about-label--static">
+        <textPath href="#about-arc-path" startOffset="100%" text-anchor="end">ABOUT &amp; CONTACT</textPath>
+      </text>
+      <path id="hey-arc-path" d="M 100.00,31.00 A 69,69 0 0,1 123.60,164.84" fill="none"></path>
+      <text class="about-label about-label--animated" data-rest="15" data-hover="0">
+        <textPath href="#hey-arc-path" startOffset="15%" text-anchor="start">HEY THERE!</textPath>
+      </text>
+    </svg>
+  </a>
+</section>
+
+<section id="bottom-half">
+  <nav id="filmstrip-filter" aria-label="Filter projects">
+    <button type="button" class="filter-tab active" data-filter="all">All Projects</button>
+    <button type="button" class="filter-tab" data-filter="video">Video</button>
+    <button type="button" class="filter-tab" data-filter="photorealism">Photorealism</button>
+    <button type="button" class="filter-tab" data-filter="graphic-imagery">Graphic Imagery</button>
+  </nav>
+  <div id="filmstrip">
+    <div id="filmstrip-track">
+      <a class="project-card" href="projects/blues/index.html" data-tags="photorealism"><span class="cover"><img src="projects/blues/cover.webp" alt="Blues" loading="lazy"></span></a>
+      <a class="project-card" href="projects/botanic watercolors/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/botanic watercolors/cover.webp" alt="Botanic Watercolors" loading="lazy"></span></a>
+      <a class="project-card" href="projects/ways to grow/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/ways to grow/cover.webp" alt="Ways to Grow" loading="lazy"></span></a>
+      <a class="project-card" href="projects/craft life/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/craft life/cover.webp" alt="Craft Life" loading="lazy"></span></a>
+      <a class="project-card" href="projects/blue animals/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/blue animals/cover.webp" alt="Blue Animals" loading="lazy"></span></a>
+      <a class="project-card" href="projects/reds/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/reds/cover.webp" alt="Red" loading="lazy"></span></a>
+      <a class="project-card" href="projects/borrowed art/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/borrowed art/cover.webp" alt="Borrowed Art" loading="lazy"></span></a>
+      <a class="project-card" href="projects/dry blue/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/dry blue/cover.webp" alt="Dry Blue" loading="lazy"></span></a>
+      <a class="project-card" href="projects/trip/index.html" data-tags="photorealism"><span class="cover"><img src="projects/trip/cover.webp" alt="Trip" loading="lazy"></span></a>
+      <a class="project-card" href="projects/orange combo/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/orange combo/cover.webp" alt="Orange Combo" loading="lazy"></span></a>
+      <a class="project-card" href="projects/glass models/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/glass models/new cover.webp" alt="Glass Models" loading="lazy"></span></a>
+      <a class="project-card" href="projects/organic loops/index.html" data-tags="graphic-imagery video"><span class="cover"><img src="projects/organic loops/cover.webp" alt="Organic Loops" loading="lazy"></span></a>
+      <a class="project-card" href="projects/tulip inspired/index.html" data-tags="photorealism"><span class="cover"><img src="projects/tulip inspired/cover.webp" alt="Tulip Inspired" loading="lazy"></span></a>
+      <a class="project-card" href="projects/new year/index.html" data-tags="graphic-imagery video"><span class="cover"><img src="projects/new year/cover.webp" alt="New Year" loading="lazy"></span></a>
+      <a class="project-card" href="projects/Danny/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/Danny/cover.webp" alt="Danny" loading="lazy"></span></a>
+      <a class="project-card" href="projects/collectibles/index.html" data-tags="graphic-imagery"><span class="cover"><img src="projects/collectibles/cover.webp" alt="Collectibles" loading="lazy"></span></a>
+      <a class="project-card" href="projects/passover/index.html" data-tags="photorealism video"><span class="cover"><img src="projects/passover/cover passover.webp" alt="Passover reimagined" loading="lazy"></span></a>
+      <a class="project-card" href="#"><span class="cover"></span></a>
+    </div>
+  </div>
+</section>
+
+<script src="js/drag-scroll.js"></script>
+<script src="js/filmstrip.js"></script>
+<script src="js/filmstrip-filter.js"></script>
+<script src="js/portrait-arc.js"></script>
+<script src="js/portrait-fit.js"></script>
+</body>
+</html>
