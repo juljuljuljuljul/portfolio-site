@@ -32,13 +32,11 @@ html, body {
   font-family: 'Lato', Helvetica, Arial, sans-serif;
 }
 
-/* Safety net for project pages: the explainer paragraph scrolls internally
-   (see #project-explainer p) rather than growing the page, so this
-   shouldn't normally matter — but body.project-page's own overflow-y:auto
-   further down has no effect unless html also allows it (the browser's
-   root scroller is html, not body, whenever html's own overflow isn't
-   visible), so on some extreme viewport this is the fallback that keeps
-   content from being truly unreachable rather than merely clipped. */
+/* Project pages scroll the whole page when the explainer text runs long,
+   rather than capping/scrolling the paragraph itself — body.project-page's
+   own overflow-y:auto further down has no effect unless html also allows
+   it (the browser's root scroller is html, not body, whenever html's own
+   overflow isn't visible), so this is what actually makes that scroll work. */
 html:has(body.project-page) {
   overflow-y: auto;
 }
@@ -598,34 +596,10 @@ body.project-page {
      inside a 78dvh row at their native 9:16 ratio), not an arbitrary
      paragraph measure. */
   max-width: calc(78dvh * 9 / 16);
-  /* Capped height + its own scroll, rather than letting the paragraph grow
-     the whole page — every project page keeps the same shape regardless of
-     how long the text runs. Most explainers are short enough this never
-     triggers; js/explainer-overflow.js toggles .has-overflow on the parent
-     only when it actually does, for the fade below. */
-  max-height: 140px;
-  overflow-y: auto;
   font-size: 14px;
   line-height: 1.6;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.68);
-}
-
-/* A soft fade at the bottom edge — hints "scroll for more" instead of text
-   just running into a hard, broken-looking cutoff. Only shown when the
-   paragraph is actually taller than its box (see js/explainer-overflow.js);
-   short texts (most of them) are completely unaffected. */
-#project-explainer.has-overflow::after {
-  content: '';
-  position: absolute;
-  left: 6vw;
-  right: 6vw;
-  bottom: 0;
-  width: calc(78dvh * 9 / 16);
-  max-width: calc(100% - 12vw);
-  height: 24px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-  pointer-events: none;
 }
 
 /* A real sticky footer — pinned to the bottom of the viewport at all times,
