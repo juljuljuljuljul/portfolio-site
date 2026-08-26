@@ -614,6 +614,7 @@ body.project-page {
   right: 0;
   bottom: 0;
   display: flex;
+  align-items: center;
   gap: 28px;
   padding: 20px 6vw;
   background: #fff;
@@ -632,6 +633,31 @@ body.project-page {
 @media (hover: hover) and (pointer: fine) {
   #project-menu a:hover {
     color: #000;
+  }
+}
+
+/* Native share button — mobile only (see js/project-nav.js, which also
+   skips creating it altogether on browsers with no Web Share API). Pinned
+   to the far right of the footer, separate from the Home/Prev/Next group. */
+#project-share {
+  display: none;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+#project-share svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 767px) {
+  #project-share {
+    display: block;
   }
 }
 
