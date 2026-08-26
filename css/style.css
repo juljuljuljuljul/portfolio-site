@@ -269,6 +269,12 @@ body.about-page ::selection {
     flex: 1;
     min-height: 0;
     height: auto;
+    /* filter + filmstrip are sized to their own content below (not
+       stretched to fill #bottom-half) — this pushes that group as a whole
+       to the bottom, so any leftover space (when #top-half's text is
+       short) lands above the group, between it and the paragraph, instead
+       of inside the filmstrip or between the filter row and the images. */
+    justify-content: flex-end;
   }
 
   /* Same small-caps label treatment as nav/"PROJECTS" (11px, 0.14em,
@@ -416,13 +422,25 @@ body.about-page ::selection {
      bottom-half flex rules above) rather than a fixed 38dvh, #bottom-half
      can end up taller than these (now-capped) cards actually need — e.g. a
      short paragraph leaves #bottom-half with more room than 62dvh used to
-     guarantee. flex-end (the base/desktop rule) put that leftover space
-     ABOVE the images, between them and the filter row, making the filter
-     row look glued to the paragraph instead of the images it filters.
-     flex-start keeps the filter row and images touching as one group;
-     any leftover space now falls below the images instead. */
-  #filmstrip-track {
-    align-items: flex-start;
+     guarantee. The base #filmstrip{flex:1} rule used to stretch to fill
+     that leftover space regardless, trapping empty space inside its own
+     box (above or below the images depending on align-items) instead of
+     handing it back to #bottom-half. Sizing #filmstrip to exactly what its
+     (possibly capped) cards need — flex:none, height matching the same
+     cap formula above but never exceeding what's actually available —
+     means any true leftover lives at the #bottom-half level instead,
+     where justify-content:flex-end (above) puts it above the filter row,
+     keeping filter+images glued together as one group pinned to the
+     bottom of the screen. */
+  #filmstrip {
+    flex: none;
+    /* 100% alone would be 100% of #bottom-half's own box, ignoring that
+       #filmstrip-filter (13.5px, the same font-metric constant used in
+       #intro's max-width formula, plus its margin-bottom) already takes
+       some of that space — without subtracting it, filmstrip would claim
+       the whole box for itself and overflow past #bottom-half by exactly
+       the filter row's height. */
+    height: min(calc(70vw * 16 / 9), calc(100% - 13.5px - clamp(10px, 2vw, 18px)));
   }
 }
 
