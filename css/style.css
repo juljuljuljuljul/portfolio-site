@@ -51,12 +51,35 @@ body.about-page ::selection {
 
 /* --- Top half: name + about --- */
 
-#top-half {
-  height: 38vh;
-  height: 38dvh;
+/* #top-half and #bottom-half used to be two independent fixed-height boxes
+   (38dvh + 62dvh = 100dvh) — fine as long as the text always fit in 38dvh,
+   but a longer greeting/paragraph combo (or a short/narrow window, or a
+   phone with less effective height once Safari's own UI is accounted for)
+   could make #top-half's content taller than its box, visually overlapping
+   "ALL PROJECTS" below it rather than pushing it down (plain overflow, no
+   clipping) — seen on both a real mobile Safari and a wide-but-short
+   desktop window (e.g. a "Nest Hub" 1024x600 preset, where the narrower
+   width wraps the paragraph onto more lines than 38dvh has room for).
+   Switching the body to a flex column with #top-half sized by its own
+   content and #bottom-half taking whatever's left makes overlap
+   structurally impossible at any width: the filmstrip area just gets
+   shorter instead, per the standing rule that the thumbnails are the one
+   thing allowed to flex for smaller/odd screens. Scoped to the homepage
+   specifically (the only page with #top-half) so this doesn't touch the
+   about/project page layouts. */
+body:has(#top-half) {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: 100vh;
+  height: 100dvh;
+}
+
+#top-half {
+  flex: none;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 0 6vw;
 }
 
@@ -234,46 +257,26 @@ body.about-page ::selection {
 }
 
 @media (max-width: 767px) {
-  /* #top-half and #bottom-half used to be two independent fixed-height
-     boxes (38dvh + 62dvh = 100dvh) — fine as long as the text always fit
-     in 38dvh, but a longer greeting/paragraph combo (or a phone with less
-     effective height once Safari's own UI is accounted for) could make
-     #top-half's content taller than its box, visually overlapping
-     "ALL PROJECTS" below it rather than pushing it down (plain overflow,
-     no clipping). Switching the body to a flex column with #top-half
-     sized by its own content and #bottom-half taking whatever's left
-     makes overlap structurally impossible: the filmstrip area just gets
-     shorter instead, per the standing rule that the thumbnails are the
-     one thing allowed to flex for smaller/odd screens. Scoped to the
-     homepage specifically (the only page with #top-half) so this doesn't
-     touch the about/project page layouts. */
-  body:has(#top-half) {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
-  }
-
   /* Anchored near the top instead of vertically centered — centering left
      a gap above the text that grew with screen height, so it looked
      emptier the taller the phone (nothing to do with the notch, just a
-     flex box centering content of a fairly constant height). */
+     flex box centering content of a fairly constant height). Mobile's own
+     padding-top (distinct from desktop's) — #top-half itself is already
+     flex:none/height:auto/justify-content:flex-start at all widths, see
+     above. */
   #top-half {
-    flex: none;
-    height: auto;
-    justify-content: flex-start;
     padding-top: clamp(28px, 8vw, 48px);
   }
 
+  /* filter + filmstrip are sized to their own content below (not
+     stretched to fill #bottom-half) — this pushes that group as a whole
+     to the bottom, so any leftover space (when #top-half's text is short)
+     lands above the group, between it and the paragraph, instead of
+     inside the filmstrip or between the filter row and the images. Only
+     needed on mobile: desktop cards have no max-height cap, so they
+     always exactly fill #filmstrip's flex:1 box with no leftover to
+     mislocate in the first place. */
   #bottom-half {
-    flex: 1;
-    min-height: 0;
-    height: auto;
-    /* filter + filmstrip are sized to their own content below (not
-       stretched to fill #bottom-half) — this pushes that group as a whole
-       to the bottom, so any leftover space (when #top-half's text is
-       short) lands above the group, between it and the paragraph, instead
-       of inside the filmstrip or between the filter row and the images. */
     justify-content: flex-end;
   }
 
@@ -306,8 +309,9 @@ body.about-page ::selection {
 /* --- Bottom half: horizontal filmstrip of tall covers --- */
 
 #bottom-half {
-  height: 62vh;
-  height: 62dvh;
+  flex: 1;
+  min-height: 0;
+  height: auto;
   display: flex;
   flex-direction: column;
   padding-top: clamp(16px, 3vw, 28px);
