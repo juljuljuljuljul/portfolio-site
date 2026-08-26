@@ -43,6 +43,14 @@ html:has(body.project-page) {
   overflow-y: auto;
 }
 
+::selection {
+  background: #DEFF79;
+}
+
+body.about-page ::selection {
+  background: #00485B;
+}
+
 /* --- Top half: name + about --- */
 
 #top-half {
@@ -944,7 +952,7 @@ body.about-page #mobile-about-link.show {
 }
 
 .about-link {
-  color: #34B184;
+  color: #358FFF;
   text-decoration: none;
 }
 
