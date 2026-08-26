@@ -6,7 +6,7 @@
   // reads like a classic circular play button without borrowing YouTube's
   // actual color. currentColor drives the circle so it inherits whatever
   // muted/playing/hover color the button itself is in.
-  const PLAY_PATH = 'M9.3 8.7 Q9.3 7.5 10.35 8.09 L17.3 12 L10.35 15.91 Q9.3 16.5 9.3 15.3 Z';
+  const PLAY_PATH = 'M8.3 8.7 Q8.3 7.5 9.35 8.09 L16.3 12 L9.35 15.91 Q8.3 16.5 8.3 15.3 Z';
   const PAUSE_PATH = 'M9 7.5 h2 v9 h-2 Z M13 7.5 h2 v9 h-2 Z';
 
   let currentAudio = null;
