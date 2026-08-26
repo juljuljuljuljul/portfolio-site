@@ -59,7 +59,7 @@
       play.innerHTML =
         '<svg viewBox="0 0 24 24" aria-hidden="true">' +
         '<circle cx="12" cy="12" r="11" fill="currentColor"/>' +
-        '<path d="M10 7.5 L18 12 L10 16.5 Z" fill="#fff"/></svg>';
+        '<path d="M9.3 8.7 Q9.3 7.5 10.35 8.09 L17.3 12 L10.35 15.91 Q9.3 16.5 9.3 15.3 Z" fill="#fff"/></svg>';
       coverBtn.appendChild(thumb);
       coverBtn.appendChild(play);
       coverBtn.addEventListener('click', () => {
