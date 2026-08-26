@@ -234,6 +234,16 @@ body.about-page ::selection {
 }
 
 @media (max-width: 767px) {
+  /* Anchored near the top instead of vertically centered in the 38dvh box
+     — centering left a gap above the text that grew with screen height, so
+     it looked emptier the taller the phone (nothing to do with the notch,
+     just a fixed-height flex box centering content of a fairly constant
+     height). */
+  #top-half {
+    justify-content: flex-start;
+    padding-top: clamp(28px, 8vw, 48px);
+  }
+
   /* Same small-caps label treatment as nav/"PROJECTS" (11px, 0.14em,
      uppercase), but full black instead of their muted gray. Desktop
      greeting is untouched. */
@@ -255,8 +265,8 @@ body.about-page ::selection {
   }
 
   #intro p {
-    font-size: 21px;
-    line-height: 1.2;
+    font-size: 23px;
+    line-height: 1.25;
   }
 }
 
