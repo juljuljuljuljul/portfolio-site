@@ -411,6 +411,19 @@ body.about-page ::selection {
   .project-card {
     max-height: calc(70vw * 16 / 9);
   }
+
+  /* Now that #top-half sizes itself to its own content (see the top-half/
+     bottom-half flex rules above) rather than a fixed 38dvh, #bottom-half
+     can end up taller than these (now-capped) cards actually need — e.g. a
+     short paragraph leaves #bottom-half with more room than 62dvh used to
+     guarantee. flex-end (the base/desktop rule) put that leftover space
+     ABOVE the images, between them and the filter row, making the filter
+     row look glued to the paragraph instead of the images it filters.
+     flex-start keeps the filter row and images touching as one group;
+     any leftover space now falls below the images instead. */
+  #filmstrip-track {
+    align-items: flex-start;
+  }
 }
 
 .cover {
