@@ -911,18 +911,12 @@ body.about-page {
    768px, so without this there'd be no way home on mobile at all. Needs
    its own color (base style is dark, tuned for the white homepage).
 
-   Positioned to land at the exact same height as the homepage's ABOUT,
-   which sits inside #top-half's vertically-centered 38dvh block — its top
-   offset works out to (38dvh - 205.9px) / 2, where 205.9px is the fixed
-   rendered height of the homepage's greeting+intro block (constant across
-   widths/heights, only content/font-size dependent). A flat px margin here
-   would only match at one specific viewport height; this tracks dvh the
-   same way ABOUT does, verified at 375x700, 375x812 and 414x896 to land
-   within a fraction of a px of ABOUT's actual position every time. */
+   top is overridden per-breakpoint below — mobile anchors it near the top
+   of #about-hero's own padding box (see the max-width:767px rule), same
+   fixed-anchor approach as the homepage's #top-half. */
 body.about-page #mobile-about-link.show {
   display: block;
   position: absolute;
-  top: calc(19dvh - 103px);
   right: 6vw;
   color: rgba(255, 255, 255, 0.45);
 }
@@ -933,6 +927,14 @@ body.about-page #mobile-about-link.show {
     justify-content: space-between;
     align-items: flex-start;
   }
+
+  /* Desktop-cramped fallback (portrait doesn't fit — see js/portrait-fit.js
+     "no-room" case): keeps its original dvh-based position, matching where
+     the portrait's own ABOUT link would otherwise land. Unrelated to the
+     mobile fix below. */
+  body.about-page #mobile-about-link.show {
+    top: calc(19dvh - 103px);
+  }
 }
 
 #about-intro {
@@ -940,16 +942,19 @@ body.about-page #mobile-about-link.show {
 }
 
 @media (max-width: 767px) {
-  /* #mobile-about-link ("HOME") is absolutely positioned above at
-     calc(19dvh - 103px), independent of #about-hero's own padding-top —
-     without this, the two overlap (the link floats over the paragraph's
-     first lines instead of sitting above them). This clears it with a
-     ~24px gap using that same dvh term, so the gap holds at any viewport
-     height rather than only the one this was tuned against; the trailing
-     subtraction just backs out #about-hero's own padding-top since this
-     margin stacks on top of it. */
+  /* Anchored near the top of #about-hero's own padding box, same
+     fixed-anchor approach as the homepage's #top-half — the old dvh-based
+     position grew into a large empty gap on taller phones (matching a
+     homepage position that itself no longer centers). */
+  body.about-page #mobile-about-link.show {
+    top: clamp(28px, 6vw, 56px);
+  }
+
+  /* Just enough clearance for the HOME link's own line height plus a small
+     gap — a fixed value now that HOME itself has a fixed top instead of a
+     dvh-based one. */
   #about-intro {
-    margin-top: calc(19dvh - 103px + 38px - clamp(28px, 6vw, 56px));
+    margin-top: clamp(28px, 7vw, 36px);
   }
 }
 
