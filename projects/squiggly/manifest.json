@@ -1,0 +1,83 @@
+{
+  "title": "Squiggly",
+  "cover": "cover.webp",
+  "items": [
+    {
+      "type": "video",
+      "id": "UCpAfka9UIQ",
+      "orientation": "vertical"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 01.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 02.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 03.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 04.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 05.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 06.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 07.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 08.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 09.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 10.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 11.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 12.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 13.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 14.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 15.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 16.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 17.webp"
+    },
+    {
+      "type": "image",
+      "src": "squiggly 18.webp"
+    }
+  ]
+}
